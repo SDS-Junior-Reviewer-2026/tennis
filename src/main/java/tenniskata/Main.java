@@ -1,6 +1,7 @@
 package tenniskata;
 
 class TennisGame {
+    private static final String[] scoreSinglePlayer = { "Love", "Fifteen", "Thirty", "Forty" };
     private int mScore1 = 0;
     private int mScore2 = 0;
     private final String player1Name;
@@ -61,13 +62,11 @@ class TennisGame {
     }
 
     private String getScoreSinglePlayer(int mScore) {
-        return switch (mScore) {
-            case 0 -> "Love";
-            case 1 -> "Fifteen";
-            case 2 -> "Thirty";
-            case 3 -> "Forty";
-            default -> throw new IllegalArgumentException("invalid_m_score");
-        };
+        if (mScore > -1 && mScore < 4) {
+            return scoreSinglePlayer[mScore];
+        }
+
+        throw new IllegalArgumentException("invalid_m_score");
     }
 }
 
