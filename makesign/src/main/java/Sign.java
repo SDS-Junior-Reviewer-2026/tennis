@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 
 class Node {
     public int dateCode;
@@ -11,37 +12,30 @@ class Node {
 }
 
 public class Sign {
-
     void makeSign(ArrayList<Node> signList) throws Exception {
-        //1. 서명 정렬하기
-        for (int y = 0; y < signList.size(); y++) {
-            for (int x = y + 1; x < signList.size(); x++) {
-                if (signList.get(y).dateCode > signList.get(x).dateCode) {
-                    Node temp = new Node(signList.get(y).dateCode, signList.get(y).name);
-                    signList.get(y).dateCode = signList.get(x).dateCode;
-                    signList.get(y).name = signList.get(x).name;
-                    signList.get(x).dateCode = temp.dateCode;
-                    signList.get(x).name = temp.name;
-                }
-            }
-        }
-
         //2. valid 검사
-        boolean flag = false;
-        for (Node tar : signList) {
-            if (tar.dateCode > 0 && tar.dateCode < 10) continue;
-            flag = true;
-            break;
-        }
-
-        if (flag == true) {
+        if (doesInvalidPageExist(signList)) {
             throw new Exception();
         }
-        else {
-            //3. 서명하기
-            for (Node tar : signList) {
-                System.out.println(tar.dateCode + " : " + tar.name);
-            }
+        //1. 서명 정렬하기
+        orderSignList(signList);
+        doSign(signList);
+    }
+
+    boolean doesInvalidPageExist(ArrayList<Node> signList) {
+        for (Node target : signList) {
+            if (target.dateCode <= 0 || target.dateCode >= 10) { return true; }
+        }
+        return false;
+    }
+
+    void orderSignList(ArrayList<Node> signList) {
+        signList.sort(Comparator.comparingInt(node -> node.dateCode));
+    }
+
+    void doSign(ArrayList<Node>signList) {
+        for (Node target : signList) {
+            System.out.println(target.dateCode + " : " + target.name);
         }
     }
 
