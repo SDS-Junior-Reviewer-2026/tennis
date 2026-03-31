@@ -22,7 +22,7 @@ class TennisGame {
     }
 
     private String getStringWhenSame() {
-        if(m_score1>=3) return getStringByScore(m_score1) + "-all";
+        if(m_score1<3) return getStringByScore(m_score1) + "-All";
         else return "Deuce";
     }
 
