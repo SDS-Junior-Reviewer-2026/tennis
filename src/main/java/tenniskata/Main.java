@@ -41,17 +41,8 @@ class TennisGame {
     }
 
     private static String sameScoreName(int score) {
-        switch (score)
-        {
-            case 0:
-                return "Love-All";
-            case 1:
-                return "Fifteen-All";
-            case 2:
-                return "Thirty-All";
-            default:
-                return "Deuce";
-        }
+        if (score > 2){ return "Deuce";}
+        return getScoreName(score) + "-All";
     }
 
     private static String getScoreName(int score){
