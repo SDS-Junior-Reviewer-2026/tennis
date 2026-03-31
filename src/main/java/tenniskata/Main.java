@@ -16,50 +16,22 @@ class TennisGame {
             m_score2 += 1;
     }
     public String getScore() {
-        String score = "";
-        if (m_score1==m_score2)
-        {
-            score = getStringWhenSame();
-        }
-        else if (m_score1>=4 || m_score2>=4)
-        {
-            score = getStringWhenDeuce();
-        }
-        else
-        {
-            score = getStringWhenNormal();
-        }
-        return score;
+        if (m_score1==m_score2) return getStringWhenSame();
+        else if (m_score1>=4 || m_score2>=4) return getStringWhenDeuce();
+        else return getStringWhenNormal();
     }
 
     private String getStringWhenSame() {
-        String score;
-        switch (m_score1)
-        {
-            case 0:
-                score = "Love-All";
-                break;
-            case 1:
-                score = "Fifteen-All";
-                break;
-            case 2:
-                score = "Thirty-All";
-                break;
-            default:
-                score = "Deuce";
-                break;
-        }
-        return score;
+        if(m_score1>=3) return getStringByScore(m_score1) + "-all";
+        else return "Deuce";
     }
 
     private String getStringWhenDeuce() {
-        String score;
         int minusResult = m_score1-m_score2;
-        if (minusResult==1) score ="Advantage player1";
-        else if (minusResult ==-1) score ="Advantage player2";
-        else if (minusResult>=2) score = "Win for player1";
-        else score ="Win for player2";
-        return score;
+        if (minusResult==1) return "Advantage player1";
+        else if (minusResult ==-1) return "Advantage player2";
+        else if (minusResult>=2) return "Win for player1";
+        else return "Win for player2";
     }
 
     private String getStringWhenNormal() {
@@ -69,23 +41,24 @@ class TennisGame {
         {
             if (i==1) tempScore = m_score1;
             else { score +="-"; tempScore = m_score2;}
-            switch(tempScore)
-            {
-                case 0:
-                    score +="Love";
-                    break;
-                case 1:
-                    score +="Fifteen";
-                    break;
-                case 2:
-                    score +="Thirty";
-                    break;
-                case 3:
-                    score +="Forty";
-                    break;
-            }
+            score += getStringByScore(tempScore);
         }
         return score;
+    }
+
+    private String getStringByScore(int score) {
+        switch(score)
+        {
+            case 0:
+                return "Love";
+            case 1:
+                return "Fifteen";
+            case 2:
+                return "Thirty";
+            case 3:
+                return "Forty";
+        }
+        return "";
     }
 }
 
