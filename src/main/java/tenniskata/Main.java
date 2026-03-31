@@ -1,85 +1,7 @@
 package tenniskata;
 
-class TennisGame {
-    private int m_score1 = 0;
-    private int m_score2 = 0;
-    private String player1Name;
-    private String player2Name;
-    public TennisGame(String player1Name, String player2Name) {
-        this.player1Name = player1Name;
-        this.player2Name = player2Name;
-    }
-    public void wonPoint(String playerName) {
-        if (playerName == "player1")
-            m_score1 += 1;
-        else
-            m_score2 += 1;
-    }
-
-    public String getScore() {
-        if (isEqualScore()) return getEqualScore();
-        else if (isEndGameScore()) return getEndGameScore();
-        else return getNormalScore();
-    }
-
-    private boolean isEqualScore() {
-        return m_score1 == m_score2;
-    }
-
-    private String getEqualScore() {
-        switch (m_score1)
-        {
-            case 0:
-                return "Love-All";
-            case 1:
-                return "Fifteen-All";
-            case 2:
-                return "Thirty-All";
-            default:
-                return "Deuce";
-        }
-    }
-
-    private boolean isEndGameScore() {
-        return m_score1 >= 4 || m_score2 >= 4;
-    }
-
-    private String getEndGameScore() {
-        int scoreDifference = m_score1-m_score2;
-        //player1 점수가 더 높음
-        if(scoreDifference>0 ){
-            if (scoreDifference==1) return "Advantage player1";
-            else return "Win for player1";
-        }
-        //player2 점수가 더 높음
-        else{
-            if (scoreDifference==-1) return "Advantage player2";
-            else return "Win for player2";
-        }
-    }
-
-    private String getNormalScore() {
-        return getNormalPlayerScore(m_score1) + "-" + getNormalPlayerScore(m_score2);
-    }
-
-    private String getNormalPlayerScore(int playerScore) {
-        switch(playerScore)
-        {
-            case 0:
-                return "Love";
-            case 1:
-                return "Fifteen";
-            case 2:
-                return "Thirty";
-            case 3:
-                return "Forty";
-            default:
-                return "error";
-        }
-    }
-}
 public class Main {
-    static Object[][] testCase = {
+    static final Object[][] testCase = {
             {0, 0, "Love-All"},
             {1, 1, "Fifteen-All"},
             {2, 2, "Thirty-All"},
@@ -114,22 +36,22 @@ public class Main {
             {16, 14, "Win for player1"},
             {14, 16, "Win for player2"},
     };
+
     public static void main(String[] args) {
-        for (int i = 0; i < 33; i++) {
+        for (Object[] tc : testCase) {
             TennisGame tennisGame = new TennisGame("player1", "player2");
-            for(int p1Cnt = 0 ; p1Cnt < (Integer)testCase[i][0]; p1Cnt ++) {
-                tennisGame.wonPoint("player1");
-            }
-            for(int p2Cnt = 0 ; p2Cnt < (Integer)testCase[i][1]; p2Cnt ++) {
-                tennisGame.wonPoint("player2");
-            }
+            int p1Score = (int) tc[0];
+            int p2Score = (int) tc[1];
+            String expected = (String) tc[2];
+
+            for (int i = 0; i < p1Score; i++) tennisGame.wonPoint("player1");
+            for (int i = 0; i < p2Score; i++) tennisGame.wonPoint("player2");
+
             String result = tennisGame.getScore();
-            if (result.equals(testCase[i][2])) {
+            if (result.equals(expected)) {
                 System.out.println("PASS");
-            }
-            else {
-                System.out.println("result 가 " + result + "입니다." + (String)(testCase[i][2]) + "여야 합니다");
-                System.out.println("FAIL");
+            } else {
+                System.out.println("FAIL: result=" + result + ", expected=" + expected);
             }
         }
     }
