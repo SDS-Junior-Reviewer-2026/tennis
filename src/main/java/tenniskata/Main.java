@@ -31,12 +31,11 @@ class TennisGame {
     }
 
     private String getScoreTie() {
-        return switch (mScore1) {
-            case 0 -> "Love-All";
-            case 1 -> "Fifteen-All";
-            case 2 -> "Thirty-All";
-            default -> "Deuce";
-        };
+        if (mScore1 < 3) {
+            return getScoreSinglePlayer(mScore1) + "-All";
+        }
+
+        return "Deuce";
     }
 
     private String getScoreWinOrAdvantage() {
